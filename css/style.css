@@ -1,0 +1,30 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    overflow: hidden;
+}
+
+.tools {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.tools .item {
+    padding: 2px 10px;
+    margin: 0;
+    flex-basis: 30px;
+    overflow: hidden;
+    background-color: dimgray;
+}
+
+.tools .item:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+img {
+    width: 100%;
+}
