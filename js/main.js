@@ -1,7 +1,4 @@
 
-//clear canvas works for all cases. Implement a dynamic sketch. problem is after rendering 1 shape it is erased when 2nd
-//shape is starting to render. Idea: somehow make each shape redraw on canvas. switch buffer strategy or something.
-
 let canvas;
 let ctx, tools = [], tx, ty, tw, th, pY, pX;
 let isDown = false, selectedTool = -1;
