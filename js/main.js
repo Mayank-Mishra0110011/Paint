@@ -1,5 +1,5 @@
 
-let canvas;
+let canvas, canvasData;
 let ctx, tools = [], tx, ty, tw, th, pY, pX;
 let isDown = false, selectedTool = -1;
 
@@ -42,11 +42,11 @@ window.onload = function() {
     });
     canvas.addEventListener('mouseup', () => {
         isDown = false;
+        canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     });
 }
 
 function drawFree() {
-    clearCanvas();
     ctx.lineWidth = 5;
     ctx.strokeStyle = 'black';
     ctx.lineTo(event.offsetX, event.offsetY);
@@ -81,6 +81,9 @@ function switchTool() {
 
 function drawRect() {
     clearCanvas();
+    if (canvasData) {
+        ctx.putImageData(canvasData, 0, 0);
+    }
     ctx.beginPath();
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'black';
@@ -112,6 +115,9 @@ function drawRect() {
 
 function drawOval() {
     clearCanvas();
+    if (canvasData) {
+        ctx.putImageData(canvasData, 0, 0);
+    }
     ctx.beginPath();
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'black';
@@ -146,6 +152,9 @@ function erase() {
 
 function drawLine() {
     clearCanvas();
+    if (canvasData) {
+        ctx.putImageData(canvasData, 0, 0);
+    }
     ctx.beginPath();
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'black';
@@ -160,6 +169,7 @@ function clearCanvas() {
 }
 
 function save() {
+    resetSelected();
     let url = canvas.toDataURL('image/png');
     let link = document.createElement('a');
     link.download = 'canvas.png';
@@ -167,3 +177,41 @@ function save() {
     link.click();   
 }
 
+function resetSelected() {
+    if (selectedTool != -1) { 
+        tools[selectedTool].style.backgroundColor = 'dimgray';    
+        selectedTool = -1;
+        document.body.style.cursor = 'default';
+    }
+}
+
+function clearCanvasData() {
+    clearCanvas();
+    canvasData = undefined;
+    resetSelected();
+}
+
+function uploadFile() {
+    resetSelected();
+    let fileSelector = document.getElementById('fileselector');
+    fileSelector.click();
+}
+
+function addImageToCavnas() {
+    let file = event.srcElement.files[0];
+    let fileReader = new FileReader();
+    fileReader.onload = function() {
+        createCanvasImageData(fileReader.result);
+    }
+    if (file) {
+        fileReader.readAsDataURL(file);
+    }
+}
+
+function createCanvasImageData(url) {   
+    let image = new Image(canvas.width, canvas.height);
+    image.src = url;    
+    image.onload = function () {
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);   
+    }
+}
