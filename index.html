@@ -11,8 +11,9 @@
 <body>
     <main class="toolbar">
         <div class="tools">
-            <figure class="item">
+            <figure class="item" onclick="uploadFile()">
                 <img src="./img/upload.png">
+                <input type="file" style="display: none;" id="fileselector" accept="image/png, image/jpeg" onchange="addImageToCavnas()">
             </figure>
             <figure class="item" onclick="save()">
                 <img src="./img/save.png">
@@ -35,7 +36,7 @@
             <figure class="item" onclick="switchTool()" id="eraserTool">
                 <img src="./img/eraser.png">
             </figure>
-            <figure class="item" onclick="clearCanvas()">
+            <figure class="item" onclick="clearCanvasData()">
                 <img src="./img/clear.png">
             </figure>    
             <figure class="item">
@@ -81,4 +82,3 @@
     <canvas id="canvas"></canvas>
 </body>
 </html>
-
